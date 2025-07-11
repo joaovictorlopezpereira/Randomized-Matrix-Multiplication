@@ -1,0 +1,83 @@
+
+% Language
+%->8-------------------------------------------------------------------------------------------8<-%
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+%->8-------------------------------------------------------------------------------------------8<-%
+
+
+% Document Structure
+%->8-------------------------------------------------------------------------------------------8<-%
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{indentfirst}
+\usepackage{changepage}
+\setlength{\parskip}{\baselineskip}                              % Space between paragraphs
+\newcommand{\nonport}[1]{\textit{#1}}                            % For texts in a foreign language
+\renewcommand{\labelenumi}{(\theenumi)}                          % Makes itemize be (number)
+\addtolength{\jot}{0.4em}
+%->8-------------------------------------------------------------------------------------------8<-%
+
+
+% TOC Spacing
+%->8-------------------------------------------------------------------------------------------8<-%
+\usepackage{tocloft, hyperref, tocbibind}
+\setlength{\cftbeforechapskip}{12pt}  % Space before chapter's title
+\setlength{\cftbeforesecskip}{6pt}    % Space before sections's title
+\setlength{\cftbeforesubsecskip}{6pt} % Space before subsections's title
+\setlength{\cftchapnumwidth}{3em}     % Space between chapter's number and chapter's title
+\setlength{\cftsecnumwidth}{3.5em}    % Space between section's number and section's title
+\setlength{\cftsubsecnumwidth}{4em}   % Space between subsection's number and subsection's title
+\setlength{\cftchapindent}{0em}       % Space before chapters in TOC
+\setlength{\cftsecindent}{3em}        % Space before sections in TOC
+\setlength{\cftsubsecindent}{6.5em}   % Space before subsections in TOC
+%->8-------------------------------------------------------------------------------------------8<-%
+
+
+% Bibliography and Figures
+%->8-------------------------------------------------------------------------------------------8<-%
+\usepackage[backend=biber]{biblatex}
+\usepackage{csquotes}
+\usepackage{graphicx, float}
+\addbibresource{repertoire.bib}
+\graphicspath{{figures}}
+%->8-------------------------------------------------------------------------------------------8<-%
+
+
+% Math
+%->8-------------------------------------------------------------------------------------------8<-%
+\usepackage{amsmath, amssymb, calculation, mathdots, scalerel, mathtools}
+\newenvironment{jmatrix}{\left[\begin{matrix}}{\end{matrix}\right]}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\fnorm}[1]{\left\lVert#1\right\rVert_\mathsf{F}}
+\newcommand{\dist}[1]{\text{dist}(#1)}
+\renewcommand{\t}{^{\scriptscriptstyle\mathsf{T}\mkern-1mu}}
+\renewcommand{\dim}[2]{(#1 \times #2)}
+\renewcommand{\vert}{\rule[-1ex]{0.5pt}{2.5ex}}
+\newcommand{\hori}{\rule[.5ex]{2.5ex}{0.5pt}}
+\newcommand{\argmin}[1]{\underset{#1}{\text{Argmin}}\,\,}
+\newcommand{\grad}[1]{\underset{#1}{\nabla}\,\,}
+\newcommand{\var}{\text{Var}}
+\newcommand{\expval}{\text{E}}
+\newcommand{\st}{\,\,|\,\,}
+\newcommand{\impliesdown}{\displaystyle\Downarrow}
+%->8-------------------------------------------------------------------------------------------8<-%
+
+
+% Code
+%->8-------------------------------------------------------------------------------------------8<-%
+\usepackage{listings}
+\lstnewenvironment{code}[1][]{
+  \lstset{
+    basicstyle=\ttfamily,
+    columns=flexible,
+    breaklines=true,
+    breakatwhitespace=true,
+    frame=none,
+    basewidth=0.5em,
+    aboveskip=13pt,
+    belowskip=0pt,
+    #1
+  }
+}{}
+%->8-------------------------------------------------------------------------------------------8<-%

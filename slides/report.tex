@@ -1,0 +1,48 @@
+\documentclass[a4paper, 11pt]{report}
+
+\input{header.tex}
+
+\begin{document}
+
+  %->8-------------------------------------------------8<-%
+  \title{
+    \begin{figure}
+      \centering
+    \end{figure}
+    \Huge{Randomized Matrix Multiplication} \\
+    \Huge{Aproximando o Produto Matricial Utilizando Probabilidade}
+  }
+  \date{\Large{\today \vfill Rio de Janeiro - RJ}}
+  \author{
+    \LARGE{João Victor Lopez Pereira}
+    \vspace{1cm} \\
+    \Large{Instituto de Computação} \\
+    \Large{Centro de Ciências da Matemática e da Natureza} \\
+    \Large{Universidade Federal do Rio de Janeiro}
+  }
+  \maketitle
+  \newpage
+  \tableofcontents
+  \newpage
+  %->8-------------------------------------------------8<-%
+
+  \chapter{Motivação}
+    \input{motivation.tex}
+
+  \chapter{Ferramentas Utilizadas de Probabilidade e Cálculo}
+    \input{tools.tex}
+
+  \chapter{Modelo Probabilístico e Aproximação do Produto Matricial}
+    \input{model.tex}
+
+  \chapter{Experimento}
+    \input{experiment.tex}
+
+  %->8-------------------------------------------------8<-%
+  \newpage
+  \nocite{*}
+  \printbibliography
+  \addcontentsline{toc}{chapter}{Bibliografia}
+  %->8-------------------------------------------------8<-%
+
+\end{document}

@@ -1,0 +1,140 @@
+
+Visto que, informalmente, amostras ``maiores'' apresentam uma maior significância no cálculo de aproximação de $AB$, gostaríamos de fazer com que a variável aleatória $i$, que dita o índice da amostra que será sorteada, apresente maior probabilidade de amostrar uma matriz de posto $1$ que apresente maior norma.
+
+Uma outra possibilidade seria, de alguma maneira, modificar as matrizes de entrada $A$ e $B$ de modo que o tamanho das matrizes sorteadas seja aproximadamente igual e, portanto, apresentem a mesma influência na formação da matriz original. Essa técnica apresenta algumas vantagens e desvantagens. Como principal vantagem, tem-se que a variável aleatória $i$ apresentaria distribuição uniforme, além de que nenhum termo $a_ib_i\t$ apresente ``maior importância'' em comparação aos outros, o que a princípio parece bom mas faz com que nossa motivação inicial de ``matrizes de posto $1$ maiores são mais importantes'' não seja mais válida. Como pontos negativos, há o fato de uma grande modificação precisar ser feita nas matrizes $A$ e $B$ de entrada.
+
+Seguiremos com a estratégia de encontrar as probabilidades de amostragem que resultam em uma melhor aproximação de $AB$. Para isso, faremos o seguinte passo-a-passo:
+
+\begin{enumerate}
+  \item Apresentar o estimador (amostrador) $X_i$ e aproximação de $AB$ com $s$ amostras;
+  \item Calcular o valor esperado de uma amostra $X_i$;
+  \item Calcular a variância;
+  \item Calcular as probabilidades que minimizam a variância;
+  \item Resolver para a probabilidade.
+\end{enumerate}
+
+A minimização da variância (que é o que realmente queremos fazer) se mostra importante na medida que queremos que uma quantidade pequena de amostragens aleatórias permita que nossa estimativa seja mais confiável.
+
+Considere uma variável aleatória que assume valores uniformemente distribuídos entre $-50$ e $50$. Embora a média dessa variável seja $0$, sua variância é relativamente alta, pois os valores estão distribuídos com a mesma probabilidade em todo o intervalo. Isso faz com que, ao realizar poucos experimentos, a média amostral possa estar consideravelmente distante da média real. Em comparação, considere uma variável com distribuição gaussiana centrada em $0$, com a maior parte da probabilidade concentrada em torno da média (com menor variância). Nesse caso, ao realizar poucos experimentos, é mais provável que a média amostral esteja próxima de 0, pois valores extremos são menos prováveis. Essa diferença ocorre pela variância das distribuições: quanto menor a variância, menor a dispersão dos valores em torno da média, e, portanto, mais estável será a média amostral, especialmente para pequenos tamanhos de amostra.
+
+O que faremos a seguir, então, é encontrar a distribuição de probabilidade para a variável aleatória $i$ de modo que a variância do estimador $X_i$ seja a menor possível, de modo que poucas amostras garantam (probabilisticamente) um resultado mais próximo do produto matricial exato.
+
+\section{Estimador de Aproximação}
+
+  O estimador $X_i$ é definido como $X_i = \dfrac{1}{p_i} a_i b_i\t$, onde o índice $i$ é sorteado segundo uma distribuição de probabilidades $\{p_1, p_2, \dots, p_n\}$, e o valor $\dfrac{1}{p_i} a_i b_i\t$ é retornado como o resultado do experimento.
+
+  Temos então que a aproximação $\bar{AB}$ é dada por \[\bar{AB} = \dfrac{1}{s} \sum_{k=1}^s \dfrac{1}{p_{i_k}} a_{i_{k}} b_{i_{k}}\t,\]
+
+  sendo:
+
+  \begin{itemize}
+    \item $1/s$ o fator responsável por tirar a média das amostras;
+    \item $1/p_{i_{k}}$ o fator responsável pela ``compensação'' pela distribuição de probabilidades não ser uniforme;
+    \item $k$ como sendo o índice da amostra;
+    \item $i_k$ como sendo o índice da distribuição $\{p_1, p_2, \dots, p_n\}$ e o índice da matriz $a_{i_{k}}b_{i_{k}}\t$ amostrada;
+    \item $a_{i_{k}}b_{i_{k}}\t$ como sendo a matriz de posto $1$ amotrada.
+  \end{itemize}
+
+  Embora o fator $1/p_{i_{k}}$ possa parecer estranho à primeira vista, ele é essencial pois esse termo ajusta o resultado de modo que o valor esperado do estimador $X$ coincida exatamente com o produto matricial $AB$ (como mostraremos na seção a seguir). Em outras palavras, ele compensa a probabilidade com que cada termo $a_{i_{k}} b_{i_{k}}\t$ é escolhido, garantindo que o estimador seja não viesado.
+
+\section{Valor Esperado do Amostrador}
+
+  Pela definição de valor esperado, temos:
+
+  \begin{calculation}[=]
+    \expval[X]
+    \step{Definição}
+    \displaystyle  \sum_{i=1}^{n} p_i X
+    \step{Definição}
+    \displaystyle  \sum_{i=1}^{n} p_i \dfrac{1}{p_i} a_i b_i\t
+    \step{Simplificação}
+    \displaystyle \sum_{i=1}^{n} a_i b_i\t
+    \step{Definição}
+    AB
+  \end{calculation}
+
+  Ou seja, temos que o valor esperado (média) do amostrador $X$ é de fato o produto $AB$, o que justifica o termo $1/p_i$ em $X$. O cálculo do valor esperado se mostrará importante na próxima seção, onde calcularemos a variância.
+
+
+\section{Variância do Amostrador}
+
+  Pela definição de variância, temos:
+
+  \begin{calculation}[=]
+    \var[X]
+    \step{Definição}
+    \displaystyle \left(\sum_{i=1}^{n} p_i \fnorm{X_i}^2\right) - \fnorm{\expval[X_i]}^2
+    \step{Definição de $X_i$ e cálculo de $\expval[X_i]$}
+    \displaystyle \left(\sum_{i=1}^{n} p_i \fnorm{\dfrac{1}{p_i} a_i b_i\t}^2\right) - \fnorm{AB}^2
+    \step{Distributiva e linearidade da norma}
+    \displaystyle \left(\sum_{i=1}^{n} p_i \dfrac{1}{p_i^2} \norm{a_i}^2 \norm{b_i}^2\right) - \fnorm{AB}^2
+    \step{Simplificação}
+    \displaystyle \left(\sum_{i=1}^{n} \dfrac{1}{p_i} \norm{a_i}^2 \norm{b_i}^2\right) - \fnorm{AB}^2
+  \end{calculation}
+
+  Importante mencionar que a norma euclidiana e a norma de Frobenius apareceram no cálculo visto que $\var[X_i] \in \mathbb{R}$ e $a_i$ $b_i$ e $AB$ são vetores e matriz, que apresentam uma maior dimensão. Nesse caso, usamos essas normas por essas serem as escolhas naturais ao se tratar das distâncias (e por essas serem as métricas utilizadas ao calcular variância para variáveis vetoriais e matriciais).
+
+
+\section{Minimização da Variância}
+
+  Queremos encontrar a distribuição de probabilidades $p_i$ tais que a variância seja minimizada. Ou seja:
+
+  \begin{calculation}[\iff]
+    p \in \argmin{p} \var[X]
+    \step{Cálculo de $\var[X]$}
+    p \in \argmin{p} \displaystyle \left(\sum_{i=1}^{n} \dfrac{1}{p_i} \norm{a_i}^2 \norm{b_i}^2\right) - \fnorm{AB}^2
+    \step[\impliesdown]{Método de Lagrange com restrição $\left(\displaystyle\sum_{i=1}^n p_i\right) -1 = 0$}
+    \exists \lambda \st \grad{p} \displaystyle \left(\sum_{i=1}^{n} \dfrac{1}{p_i} \norm{a_i}^2 \norm{b_i}^2\right) - \fnorm{AB}^2 = \lambda \grad{p} \left(\displaystyle\sum_{i=1}^n p_i\right) -1
+    \step{$\grad{x} f(x) + g(x) = \grad{x} f(x) + \grad{x} g(x)$}
+    \exists \lambda \st \displaystyle \left(\sum_{i=1}^{n} \grad{p} \dfrac{1}{p_i} \norm{a_i}^2 \norm{b_i}^2\right) + (\grad{p} -\fnorm{AB}^2) = \lambda \left(\displaystyle\sum_{i=1}^n \grad{p} p_i \right) + (\grad{p} -1)
+    \step{$\grad{x} x = 1$, $\grad{x} c = 0$ e $\grad{x} \dfrac{1}{x} = -\dfrac{1}{x^2}$}
+    \exists \lambda \st \forall i, \,\, \displaystyle -\dfrac{1}{p_i^2} \norm{a_i}^2 \norm{b_i}^2 = \lambda
+    \step{Isolando $p_i$}
+    \exists \lambda \st \forall i, \,\, p_i = \sqrt{\dfrac{\norm{a_i}^2 \norm{b_i}^2}{-\lambda}}
+    \step{$\sqrt{\dfrac{a}{b}} = \dfrac{\sqrt{a}}{\sqrt{b}}$}
+    \exists \lambda \st \forall i, \,\, p_i = \dfrac{\sqrt{\norm{a_i}^2 \norm{b_i}^2}}{\sqrt{-\lambda}}
+    \step{Simplificação}
+    \exists \lambda \st \forall i, \,\, p_i = \dfrac{\norm{a_i} \norm{b_i}}{\sqrt{-\lambda}}
+  \end{calculation}
+
+  O que resulta em uma fórmula fechada para $p_i$, diretamente proporcional à norma dos vetores $a_i$ e $b_i\t$ (como nossa intuição já indicava), e inversamente proporcional a uma constante $\lambda$ que determinaremos na próxima seção.
+
+
+\section{Resolvendo para a Probabilidade}
+
+  Temos então que o mínimo da variância ocorre quando \[p_i = \dfrac{\norm{a_i} \norm{b_i}}{\sqrt{-\lambda}}.\] Sabemos que $\sum_{i=1}^{n} p_i = 1$. Ou seja:
+
+  \begin{calculation}[\iff]
+    \displaystyle \sum_{i=1}^{n} p_i = 1
+    \step{$p_i = \dfrac{\norm{a_i} \norm{b_i}}{\sqrt{-\lambda}}$}
+    \displaystyle \sum_{i=1}^{n} \dfrac{\norm{a_i} \norm{b_i}}{\sqrt{-\lambda}} = 1
+    \step{$\displaystyle \sum_{i=1}^n cf(i) = c \sum_{i=1}^n f(i)$}
+    \dfrac{1}{\sqrt{-\lambda}}\displaystyle \sum_{i=1}^{n} \norm{a_i} \norm{b_i} = 1q
+    \step{Isolando $\lambda$}
+    \displaystyle \lambda = -\left(\sum_{i=1}^{n} \norm{a_i} \norm{b_i}\right)^2
+  \end{calculation}
+
+  Substituindo em $p_i$, obtemos:
+
+  \begin{calculation}
+    p_i = \dfrac{\norm{a_i} \norm{b_i}}{\sqrt{-\lambda}}
+    \step{Cálculo de $\lambda$}
+    p_i = \dfrac{\norm{a_i} \norm{b_i}}{\sqrt{-\left(-\left(\displaystyle\sum_{j=1}^{n} \norm{a_j} \norm{b_j}\right)^2\right)}}
+    \step{Simplificando}
+    p_i = \dfrac{\norm{a_i} \norm{b_i}}{\left(\displaystyle\sum_{j=1}^{n} \norm{a_j} \norm{b_j}\right)}
+  \end{calculation}
+
+  Resultando, finalmente, em uma fórmula fechada para $p_i$.
+
+
+\section{Considerações Sobre o Método}
+
+  Importante notar que, por mais da fórmula de $p_i$ que encontramos parecer ter uma alta complexidade, veja que o termo do denominador é constante em relação à $i$. Ou seja, ele pode ser calculado com antecedência. Além disso, o produto das normas do numerador pode ser calculado durante o cálculo do produto das normas do denominador, fazendo então com que a complexidade do cálculo de $p_i$ apresente complexidade $O(n^2)$ (calcular 2 normas, que é $O(n)$, $n$ vezes.).
+
+  Em seguida, fixado um valor $i$, a amostra resultante do estimador é calculada como sendo \[\dfrac{1}{p_{i}} a_i b_i\t,\] que apresenta novamente complexidade $O(n^2)$ por conta do produto $a_ib_i\t$. Ao realizarmos isso com $s$ amostras e computarmos a média, temos que
+
+  \[AB \approx \bar{AB} = \dfrac{1}{s} \sum_{k=1}^s \dfrac{1}{p_{i_k}} a_{i_{k}} b_{i_{k}}\t,\]
+
+  que apresenta complexidade $O(sn^2)$, com $s$ estritamente menor do que $n$.
+
+  Além disso, perceba que, intuitivamente, o método se mostrará mais eficiente quando um produto matricial for formado por colunas e linhas que apresentam valores grandes para a norma. Nesse caso em específico, algumas matrizes --- que somadas resultarão no produto matricial --- apresentarão uma probabilidade consideralmente maior do que as demais para ser amostrada, resultando em uma boa aproximação matricial. No caso das matrizes $A$ e $B$ apresentarem colunas com tamanhos parecidos (por exemplo, colunas geradas por um processo gaussiano), a aproximação com $s$ amostras será ruim visto que todas as matrizes $a_ib_i\t$ terão importância semelhante pois $p_i$ e $p_j$ serão parecidos $\forall \, i, j \in \{1,\dots,n\}$.

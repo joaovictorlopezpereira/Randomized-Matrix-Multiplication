@@ -1,0 +1,213 @@
+
+Dadas duas matrizes $A$ e $B$, ambas de dimensão $\dim{n}{n}$, o algoritmo (tradicional) que computa o produto $AB$ é:
+
+\begin{code}
+function matrix_product(A, B)
+    n = size(A, 1)
+    C = zeros(n, n)
+    for i in 1:n
+        for j in 1:n
+            for k in 1:n
+                C[i, j] += A[i, k] * B[k, j]
+            end
+        end
+    end
+    return C
+end
+\end{code}
+
+que, apesar de ser um algoritmo exato, perfeitamente preciso e que segue diretamente da definição matemática de produto matricial, apresenta $3$ \nonport{loops} aninhados, ambos de $1$ a $n$, o que resulta em uma complexidade computacional $O(n^3)$.
+
+De maneira mais precisa, o produto de duas matrizes $A$ e $B$ é dado por
+
+\[
+  A B =
+  \begin{jmatrix}
+  \vert & & \vert \\ a_1 & \dots & a_n \\ \vert & & \vert
+  \end{jmatrix}
+  \begin{jmatrix}
+  \hori & b_1\t & \hori \\
+  & \vdots & \\
+  \hori & b_n\t & \hori \\
+  \end{jmatrix}
+  =
+  \sum_{i=1}^{n}
+  a_i b_i\t.
+\]
+
+% mention algoritms with complexity O(n^{2.7})
+
+O produto matricial $AB$ pode ser expresso como sendo a soma de várias matrizes de posto $1$ no formato $a_i b_i\t$, sendo $a_i$ a $i$ésima coluna da matriz $A$ e $b_i$ a $i$ésima linha da matriz $B$. Perceba que diferentes matrizes $a_i b_i\t$ apresentam diferentes contribuições para a formação do produto $AB$ final. Por exemplo:
+
+\begin{calculation}[=]
+  \begin{jmatrix}
+    10 & 1 \\ 20 & 3
+  \end{jmatrix}
+  \begin{jmatrix}
+    2 & 30 \\ 2 & 0.5
+  \end{jmatrix}
+  \step{$AB = \displaystyle \sum_{i=1}^{n} a_i b_i\t$}
+  \begin{jmatrix}
+    10 \\ 20
+  \end{jmatrix}
+  \begin{jmatrix}
+    2 & 30
+  \end{jmatrix}
+  +
+  \begin{jmatrix}
+    1 \\ 3
+  \end{jmatrix}
+  \begin{jmatrix}
+    2 & 0.5
+  \end{jmatrix}
+  \step{Produto}
+  \begin{jmatrix}
+    20 & 300 \\ 40 & 600
+  \end{jmatrix}
+  +
+  \begin{jmatrix}
+    2 & 0.5 \\ 6 & 1.5
+  \end{jmatrix}
+  \step{Soma índice a índice}
+  \begin{jmatrix}
+    22 & 300.5 \\ 46 & 601.5
+  \end{jmatrix}.
+\end{calculation}
+
+Perceba que o produto $a_1b_1\t$ resultou em uma matriz muito mais próxima de $AB$ do que o produto $a_2b_2\t$, e que, consequentemente, sua importância no cálculo de $AB$ foi maior. Podemos, de maneira informal, dizer que
+
+\[
+  \begin{jmatrix}
+    \vert & \vert \\ a_1 & a_2 \\ \vert & \vert
+  \end{jmatrix}
+  \begin{jmatrix}
+    \hori & b_1\t & \hori \\ \hori & b_2\t & \hori
+  \end{jmatrix}
+  \approx
+  \begin{jmatrix}
+    \vert \\ a_1 \\ \vert
+  \end{jmatrix}
+  \begin{jmatrix}
+    \hori & b_1\t & \hori
+  \end{jmatrix}
+\]
+\[
+  \begin{jmatrix}
+    \vert & \vert \\ a_1 & a_2 \\ \vert & \vert
+  \end{jmatrix}
+  \begin{jmatrix}
+    \hori & b_1\t & \hori \\ \hori & b_2\t & \hori
+  \end{jmatrix}
+  \approx
+  \begin{jmatrix}
+    \vert \\ a_2 \\ \vert
+  \end{jmatrix}
+  \begin{jmatrix}
+    \hori & b_2\t & \hori
+  \end{jmatrix}.
+\]
+
+No caso do exemplo acima, temos
+
+\[
+  \begin{jmatrix}
+    22 & 300.5 \\ 46 & 601.5
+  \end{jmatrix}
+  \approx
+  \begin{jmatrix}
+    10 \\ 20
+  \end{jmatrix}
+  \begin{jmatrix}
+    2 & 30
+  \end{jmatrix}
+  =
+  \begin{jmatrix}
+    20 & 300 \\ 40 & 600
+  \end{jmatrix}
+\]
+\[
+  \begin{jmatrix}
+    22 & 300.5 \\ 46 & 601.5
+  \end{jmatrix}
+  \approx
+  \begin{jmatrix}
+    1 \\ 3
+  \end{jmatrix}
+  \begin{jmatrix}
+    2 & 0.5
+  \end{jmatrix}
+  =
+  \begin{jmatrix}
+    2 & 0.5 \\ 6 & 1.5
+  \end{jmatrix}.
+\]
+
+Ou seja,
+
+\[
+  \begin{jmatrix}
+    22 & 300.5 \\ 46 & 601.5
+  \end{jmatrix}
+  \approx
+  \begin{jmatrix}
+    20 & 300 \\ 40 & 600
+  \end{jmatrix}
+\]
+\[
+  \begin{jmatrix}
+    22 & 300.5 \\ 46 & 601.5
+  \end{jmatrix}
+  \approx
+  \begin{jmatrix}
+    2 & 0.5 \\ 6 & 1.5
+  \end{jmatrix}.
+\]
+
+É visível que, se considerarmos o erro como sendo a norma de Frobenius da diferença entre $AB$ e sua aproximação, ou algum critério de semelhança como sendo a razão entre as normas de Frobenius de $AB$ e sua aproximação, respectivamente, teremos que a matriz resultante de $a_1b_1\t$ apresenta uma aproximação muito melhor para $AB$ do que $a_2b_2\t$.
+
+\[\fnorm{\begin{jmatrix}
+    22 & 300.5 \\ 46 & 601.5
+  \end{jmatrix}}
+  \approx
+  674.3
+\]
+\[\fnorm{\begin{jmatrix}
+    20 & 300 \\ 40 & 600
+  \end{jmatrix}}
+  \approx 672.3
+\]
+\[
+\fnorm{\begin{jmatrix}
+    2 & 0.5 \\ 6 & 1.5
+  \end{jmatrix}}
+  \approx 6.5.
+\]
+
+Podemos atribuir essa melhor representação devido à magnitude dos elementos de $a_1 b_1\t$, que se assemelham aos elementos de $AB$.
+
+Nesse exemplo, em específico, a dimensão das matrizes $A$ e $B$ foram pequenas, de modo que o custo $O(n^3)$ seja quase desconsiderável. Ainda assim, em um produto entre matrizes com dimensões muito maiores em que diferentes matrizes de posto $1$ no formato $a_ib_i\t$ apresentem importância significativa em comparação com as demais, é razoável que o produto $AB$ seja aproximado por meio de $s$ amostras de matrizes $a_ib_i\t$ amostradas, resultando em uma aproximação \[\sum_{k=1}^{s} a_{i_{k}} b_{i_{k}}\t,\] sendo $i_k$ o resultando da $k$ésima amostra, resultando assim em uma complexidade computacional $O(sn^2)$, com $s$ necessariamente menor do que $n$ (caso contrário, o produto matricial tradicional faria muito mais sentido).
+
+Em outras palavras, temos que o produto das matrizes de dimensão $\dim{n}{n}$ é expresso como a soma de $n$ matrizes, das quais gostaríamos de escolher probabilisticamente as mais importantes para aproximar o produto $AB$ final.
+
+No exemplo anterior, por exemplo, temos que
+
+\[
+  \underbrace{\begin{jmatrix}
+    22 & 300.5 \\ 46 & 601.5
+  \end{jmatrix}}_{AB}
+  =
+  \underbrace{\begin{jmatrix}
+    20 & 300 \\ 40 & 600
+  \end{jmatrix}}_{a_1b_1\t}
+  +
+  \underbrace{\begin{jmatrix}
+    2 & 0.5 \\ 6 & 1.5
+  \end{jmatrix}}_{a_2b_2\t},
+\]
+
+Perceba que se amostrarmos a matriz $a_1b_1\t$, teremos uma excelente aproximação para $AB$, enquanto se amostrarmos $a_2b_2\t$ teremos uma péssima aproximação. Nesse sentido, gostaríamos de que as probabilidades de se amostrar cada uma delas seja diferente de modo que $a_1b_1\t$ apareça com uma frequência maior do que $a_2b_2\t$.
+
+De maneira análoga à Decomposição em Valores Singulares (SVD), estamos aproximando uma matriz por meio de componentes de posto $1$. Se, por exemplo, realizarmos apenas 2 amostras para o produto de matrizes $\dim{100}{100}$, então estamos aproximando seu produto como uma matriz de posto 2. Diferente do \emph{SVD}, não temos garantia alguma de que a aproximação é boa e minimiza o erro de alguma norma, e nem que estamos maximizando a variança entre os dados.
+
+O problema agora se reduz à como escolher as melhores colunas de $A$ (e, consequentemente, linhas de $B$) de modo que a aproximação $\bar{AB}$ seja ``boa o suficiente''?
+

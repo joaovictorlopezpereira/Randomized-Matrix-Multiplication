@@ -1,0 +1,17 @@
+
+Utilizaremos algumas definições e fórmulas de Probabilidade e Cálculo para os cálculos das seções seguintes que, por motivos de organização e clareza, estarão sendo ditos nessa seção anterior.
+
+\begin{itemize}
+  \item Esperança $\displaystyle \expval[X] = \sum_{i=1}^{n} p_i X_i$
+  \item Variância $\displaystyle \var[X] = \sum_{i=1}^{n} p_i \, \dist{X_i, \expval[X]}^2,$
+
+  que, no caso de $X_i$ e $\expval[X]$ serem matriciais, a variância pode ser reescrita como sendo $\displaystyle \var[X] = \left(\sum_{i=1}^{n} p_i \, \fnorm{X_i}^2\right) - \fnorm{\expval[X]}^2$.
+
+  \item Método de Lagrange:
+
+    Sejam $f : \mathbb{R}^n \to \mathbb{R}$ uma função a ser minimizada ou maximizada e $g : \mathbb{R} \to \mathbb{R}$ uma função de restrição.
+
+    $\text{se }x' \in \mathbb{R}^n \implies \begin{cases} f(x') \geq f(x), \\ \text{ ou } \\ f(x') \leq f(x), \end{cases} \,\, \forall x \in \mathbb{R}^n\text{, sob a restrição } g(x) = 0 \,\, \text{ e } \grad{x} g(x') \neq 0$,
+
+    então $\exists \lambda \in \mathbb{R} \st \grad{x} f(x') = \lambda \grad{x} g(x')$.
+\end{itemize}
