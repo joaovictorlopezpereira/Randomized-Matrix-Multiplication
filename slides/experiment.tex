@@ -1,20 +1,27 @@
 
-Em primeira instância, foram geradas matrizes $A$ e $B$ de maneira aleatória apartir da distribuição gaussiana, o que ocasionou em um resultado semelhante de aproximação para a amostragem utilizando as probabilidades encontradas na seção anterior desse documento e utilizando uma distribuição uniforme visto que, sendo as matrizes $A$ e $B$ geradas a partir de uma gaussiana centrada no zero, a norma de todas as colunas de $A$ é bem semelhante, e o mesmo se aplica para todas as linhas de $B$, resultando em uma distribuição de probabilidade naturalmente semelhante à uniforme.
+Em primeira instância, foram geradas matrizes $A$ e $B$ de maneira aleatória apartir da distribuição gaussiana, o que ocasionou em um resultado semelhante de aproximação para a amostragem utilizando as probabilidades encontradas na seção anterior desse documento e utilizando uma distribuição uniforme visto que, sendo as matrizes $A$ e $B$ geradas a partir de uma gaussiana centrada no zero, a norma de todas as colunas de $A$ é bem semelhante, e o mesmo se aplica para todas as linhas de $B$, resultando em uma distribuição de probabilidade naturalmente semelhante à uniforme. O teste foi realizado com a geração de $100$ matrizes $A$ e $B$ aleatórias e diferentes, tirando no final a média dos resultados obtidos.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.8\textwidth]{first-experiment.png}
+  \includegraphics[width=0.8\textwidth]{result-randn.png}
   \caption{Erro relativo da aproximação do produto $AB$ via amostragem probabilística.}
-  \label{fig:first-experiment}
 \end{figure}
 
-Em seguida, realizamos os testes gerando as matrizes $A$ e $B$ a partir de matrizes com distribuição uniforme e escalando os resultados obtidos por pesos entre $0.1$ e $100$, ocasionando em matrizes com colunas com normas com maior variação, resultando assim em um experimento que apresenta o resultado esperado.
+Em seguida, realizamos os testes gerando as matrizes $A$ e $B$ a partir de matrizes com distribuição uniforme e escalando os resultados obtidos por pesos entre $0.1$ e $100$, ocasionando em matrizes com colunas com normas com maior variação, resultando assim em um experimento que apresenta o resultado esperado. O teste foi realizado com a geração de $100$ matrizes $A$ e $B$ aleatórias e diferentes, tirando no final a média dos resultados obtidos.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.8\textwidth]{second-experiment.png}
+  \includegraphics[width=0.8\textwidth]{result-rand_scaled.png}
   \caption{Erro relativo da aproximação do produto $AB$ via amostragem probabilística.}
+\end{figure}
+
+Ambas as imagens representam no eixo $y$ o erro relativo de aproximação obtido (em escala logarítmica), calculado pela fórmula \[\dfrac{\fnorm{AB - \bar{AB}}}{\fnorm{AB}},\] e no eixo $x$ o número de mostras. Outro ponto importante de se notar é que o erro apresenta a tendência de diminuir conforme o número de amostras aumenta (visto que uma variância menor fará com que a a amostragem de valores próximos a média real seja mais provável).
+
+Por fim, realizamos um experimento semelhante mas, dessa vez, computando a variância das amostragens ao invés do erro relativo. O teste também foi realizado a partir de $100$ matrizes $A$ e $B$ aleatórias e diferentes, tirando a média dos resultados obtidos no final.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{result-variance.png}
+  \caption{Variância amostragem probabilística.}
   \label{fig:second-experiment}
 \end{figure}
-
-Ambas as imagens representam no eixo $y$ o erro relativo de aproximação obtido (em escala logarítmica), calculado pela fórmula \[\dfrac{\fnorm{AB - \bar{AB}}}{\fnorm{AB}},\] e no eixo $x$ o número de mostras. Outro ponto importante de se notar é que o erro apresenta a tendência de diminuir conforme o número de amostras aumenta.
