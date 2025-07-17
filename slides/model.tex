@@ -32,7 +32,7 @@ O que faremos a seguir, então, é encontrar a distribuição de probabilidade p
     \item $1/p_{i_{k}}$ o fator responsável pela ``compensação'' pela distribuição de probabilidades não ser uniforme;
     \item $k$ como sendo o índice da amostra;
     \item $i_k$ como sendo o índice da distribuição $\{p_1, p_2, \dots, p_n\}$ e o índice da matriz $a_{i_{k}}b_{i_{k}}\t$ amostrada;
-    \item $a_{i_{k}}b_{i_{k}}\t$ como sendo a matriz de posto $1$ amotrada.
+    \item $a_{i_{k}}b_{i_{k}}\t$ como sendo a matriz de posto $1$ amostrada.
   \end{itemize}
 
   Embora o fator $1/p_{i_{k}}$ possa parecer estranho à primeira vista, ele é essencial pois esse termo ajusta o resultado de modo que o valor esperado do estimador $X$ coincida exatamente com o produto matricial $AB$ (como mostraremos na seção a seguir). Em outras palavras, ele compensa a probabilidade com que cada termo $a_{i_{k}} b_{i_{k}}\t$ é escolhido, garantindo que o estimador seja não viesado.
@@ -42,7 +42,7 @@ O que faremos a seguir, então, é encontrar a distribuição de probabilidade p
   Pela definição de valor esperado, temos:
 
   \begin{calculation}[=]
-    \expval[X]
+    \expval[X_i]
     \step{Definição}
     \displaystyle  \sum_{i=1}^{n} p_i X
     \step{Definição}
@@ -53,7 +53,7 @@ O que faremos a seguir, então, é encontrar a distribuição de probabilidade p
     AB
   \end{calculation}
 
-  Ou seja, temos que o valor esperado (média) do amostrador $X$ é de fato o produto $AB$, o que justifica o termo $1/p_i$ em $X$. O cálculo do valor esperado se mostrará importante na próxima seção, onde calcularemos a variância.
+  Ou seja, temos que o valor esperado (média) do amostrador $X_i$ é de fato o produto $AB$, o que justifica o termo $1/p_i$ em $X_i$. O cálculo do valor esperado se mostrará importante na próxima seção, onde calcularemos a variância.
 
 
 \section{Variância do Amostrador}
@@ -61,7 +61,7 @@ O que faremos a seguir, então, é encontrar a distribuição de probabilidade p
   Pela definição de variância, temos:
 
   \begin{calculation}[=]
-    \var[X]
+    \var[X_i]
     \step{Definição}
     \displaystyle \left(\sum_{i=1}^{n} p_i \fnorm{X_i}^2\right) - \fnorm{\expval[X_i]}^2
     \step{Definição de $X_i$ e cálculo de $\expval[X_i]$}
@@ -102,23 +102,23 @@ O que faremos a seguir, então, é encontrar a distribuição de probabilidade p
 
 \section{Resolvendo para a Probabilidade}
 
-  Temos então que o mínimo da variância ocorre quando \[p_i = \dfrac{\norm{a_i} \norm{b_i}}{\sqrt{-\lambda}}.\] Sabemos que $\sum_{i=1}^{n} p_i = 1$. Ou seja:
+  Temos então que o mínimo da variância ocorre quando \[p_i = \dfrac{\norm{a_i} \norm{b_i}}{\sqrt{-\lambda}}.\] Sabemos que $\displaystyle\sum_{i=1}^{n} p_i = 1$. Ou seja:
 
   \begin{calculation}[\iff]
     \displaystyle \sum_{i=1}^{n} p_i = 1
     \step{$p_i = \dfrac{\norm{a_i} \norm{b_i}}{\sqrt{-\lambda}}$}
     \displaystyle \sum_{i=1}^{n} \dfrac{\norm{a_i} \norm{b_i}}{\sqrt{-\lambda}} = 1
     \step{$\displaystyle \sum_{i=1}^n cf(i) = c \sum_{i=1}^n f(i)$}
-    \dfrac{1}{\sqrt{-\lambda}}\displaystyle \sum_{i=1}^{n} \norm{a_i} \norm{b_i} = 1q
+    \dfrac{1}{\sqrt{-\lambda}}\displaystyle \sum_{i=1}^{n} \norm{a_i} \norm{b_i} = 1
     \step{Isolando $\lambda$}
     \displaystyle \lambda = -\left(\sum_{i=1}^{n} \norm{a_i} \norm{b_i}\right)^2
   \end{calculation}
 
   Substituindo em $p_i$, obtemos:
 
-  \begin{calculation}
+  \begin{calculation}[\iff]
     p_i = \dfrac{\norm{a_i} \norm{b_i}}{\sqrt{-\lambda}}
-    \step{Cálculo de $\lambda$}
+    \step{$\displaystyle \lambda = -\left(\sum_{i=1}^{n} \norm{a_i} \norm{b_i}\right)^2$}
     p_i = \dfrac{\norm{a_i} \norm{b_i}}{\sqrt{-\left(-\left(\displaystyle\sum_{j=1}^{n} \norm{a_j} \norm{b_j}\right)^2\right)}}
     \step{Simplificando}
     p_i = \dfrac{\norm{a_i} \norm{b_i}}{\left(\displaystyle\sum_{j=1}^{n} \norm{a_j} \norm{b_j}\right)}
@@ -137,4 +137,4 @@ O que faremos a seguir, então, é encontrar a distribuição de probabilidade p
 
   que apresenta complexidade $O(sn^2)$, com $s$ estritamente menor do que $n$.
 
-  Além disso, perceba que, intuitivamente, o método se mostrará mais eficiente quando um produto matricial for formado por colunas e linhas que apresentam valores grandes para a norma. Nesse caso em específico, algumas matrizes --- que somadas resultarão no produto matricial --- apresentarão uma probabilidade consideralmente maior do que as demais para ser amostrada, resultando em uma boa aproximação matricial. No caso das matrizes $A$ e $B$ apresentarem colunas com tamanhos parecidos (por exemplo, colunas geradas por um processo gaussiano), a aproximação com $s$ amostras será ruim visto que todas as matrizes $a_ib_i\t$ terão importância semelhante pois $p_i$ e $p_j$ serão parecidos $\forall \, i, j \in \{1,\dots,n\}$.
+  Além disso, perceba que, intuitivamente, o método se mostrará mais eficiente quando um produto matricial for formado por colunas e linhas que apresentam valores grandes para a norma. Nesse caso em específico, algumas matrizes --- que somadas resultarão no produto matricial --- apresentarão uma probabilidade consideralmente maior do que as demais para serem amostradas, resultando em uma boa aproximação para o produto matricial. No caso das matrizes $A$ e $B$ apresentarem colunas com tamanhos parecidos (por exemplo, colunas geradas por um processo gaussiano), a aproximação com $s$ amostras será ruim visto que todas as matrizes $a_ib_i\t$ terão importância semelhante pois $p_i$ e $p_j$ serão parecidos $\forall \, i, j \in \{1,\dots,n\}$.
